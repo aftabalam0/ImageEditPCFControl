@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="ie" constructor="imagedit" version="0.0.2" display-name-key="imagedit" description-key="imagedit description" control-type="virtual" >
+  <control namespace="ie" constructor="imagedit" version="0.0.3" display-name-key="imagedit" description-key="imagedit description" control-type="virtual" >
     <external-service-usage enabled="false">
     </external-service-usage>
-    <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="InputImage" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="CroppedImage" display-name-key="Cropped Image" description-key="Cropped_Image_Key" of-type="SingleLine.Text" usage="output" />
     <resources>
       <code path="index.ts" order="1"/>
       <platform-library name="React" version="16.14.0" />

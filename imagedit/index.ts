@@ -5,10 +5,10 @@ import * as React from "react";
 export class imagedit implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
+    private CroppedImage: string = "";
 
     constructor() { }
 
-    
     public init(
         context: ComponentFramework.Context<IInputs>,
         notifyOutputChanged: () => void,
@@ -18,18 +18,24 @@ export class imagedit implements ComponentFramework.ReactControl<IInputs, IOutpu
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-        const sampleProperty = context.parameters.sampleProperty.raw || "https://avatarfiles.alphacoders.com/161/161002.jpg";
+        const InputImage = context.parameters.InputImage.raw || "https://avatarfiles.alphacoders.com/161/161002.jpg";
         return React.createElement(
-            App, { sampleProperty : sampleProperty }
+            App, {
+                InputImage: InputImage,
+                onUpdateOutput: (CroppedImage: string,) => {
+                    this.CroppedImage = CroppedImage;
+                    this.notifyOutputChanged();
+                }
+            }
         );
     }
 
-
     public getOutputs(): IOutputs {
-        return { };
+        return {
+            CroppedImage: this.CroppedImage,
+        };
     }
 
-  
     public destroy(): void {
         // Add code to cleanup control if necessary
     }

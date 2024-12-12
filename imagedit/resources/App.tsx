@@ -36,12 +36,13 @@ function centerAspectCrop(
 }
 
 interface AppProps {
-  sampleProperty: string;
+  InputImage: string;
+  onUpdateOutput: (croppedImage: string) => void;
 }
 
-export default function App({ sampleProperty }: AppProps) {
-  console.log(sampleProperty)
-  const [imgSrc, setImgSrc] = useState(sampleProperty.slice(1, -1));
+export default function App({ InputImage,onUpdateOutput }: AppProps) {
+  // console.log(sampleProperty)
+  const [imgSrc, setImgSrc] = useState(InputImage.slice(1, -1));
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
   const hiddenAnchorRef = useRef<HTMLAnchorElement>(null)
@@ -72,9 +73,8 @@ export default function App({ sampleProperty }: AppProps) {
   }
 
   async function onDownloadCropClick() {
-    const image = imgRef.current
-    console.log('image ',image)
-    const previewCanvas = previewCanvasRef.current
+    const image = imgRef.current;
+    const previewCanvas = previewCanvasRef.current;
     if (!image || !previewCanvas || !completedCrop) {
       throw new Error('Crop canvas does not exist')
     }
@@ -111,15 +111,26 @@ export default function App({ sampleProperty }: AppProps) {
       type: 'image/png',
     })
 
+    const croppedImageBase64 = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+
+    onUpdateOutput(croppedImageBase64);
+    // console.log("64",croppedImageBase64);
+    // console.log("blob",blob)
+
     if (blobUrlRef.current) {
       URL.revokeObjectURL(blobUrlRef.current)
     }
     blobUrlRef.current = URL.createObjectURL(blob)
 
-    if (hiddenAnchorRef.current) {
-      hiddenAnchorRef.current.href = blobUrlRef.current
-      hiddenAnchorRef.current.click()
-    }
+    // if (hiddenAnchorRef.current) {
+    //   hiddenAnchorRef.current.href = blobUrlRef.current
+    //   hiddenAnchorRef.current.click()
+    // }
   }
 
   useDebounceEffect(
@@ -164,7 +175,7 @@ export default function App({ sampleProperty }: AppProps) {
     <div className="App">
       <div className='Left-Container'>
         <div className="Crop-Controls">
-         <div className='upload-input-div' >
+         <div className='upload-input-div'style={{display:"none"}} >
             <label htmlFor="upload-input">Upload: </label>
             <input type="file" id="upload-input" accept="image/*" 
               onChange ={onSelectFile}
@@ -215,18 +226,18 @@ export default function App({ sampleProperty }: AppProps) {
                 <canvas
                   ref={previewCanvasRef}
                   style={{
-                    // border: '1px solid black',
-                    // objectFit: 'contain',
-                    // width: completedCrop.width,
-                    // height: completedCrop.height,
+                    border: '1px solid black',
+                    objectFit: 'contain',
+                    width: completedCrop.width,
+                    height: completedCrop.height,
                   }}
                 />
               </div>
               <div>
-                <button onClick={onDownloadCropClick}>Crop & Download</button>
+                <button onClick={onDownloadCropClick}>Crop</button>
                 <div style={{ fontSize: 12, color: '#666' }}>
-                  If you get a security error when downloading try opening the
-                  Preview in a new tab (icon near top right).
+                  {/* If you get a security error when downloading try opening the
+                  Preview in a new tab (icon near top right). */}
                 </div>
                 <a
                   href="#hidden"
@@ -251,7 +262,16 @@ export default function App({ sampleProperty }: AppProps) {
             <ReactCrop
               crop={crop}
               onChange={(_, percentCrop) => setCrop(percentCrop)}
-              onComplete={(c) => setCompletedCrop(c)}
+              // onComplete={(c) => setCompletedCrop(c)}
+              onComplete={(crop, percentCrop) => {
+                setCompletedCrop(
+                    convertToPixelCrop(
+                        percentCrop,
+                        imgRef.current?.width || 0,
+                        imgRef.current?.height || 0
+                    )
+                );
+            }}
               aspect={aspect}
               // minWidth={400}
               minHeight={100}

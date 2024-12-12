@@ -1,140 +1,140 @@
-/* General App Layout */
 .App {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    height: 100vh;
-    box-sizing: border-box;
-    border: 1px solid #ddd; /* Add border around the app */
-  }
-  
-  .Left-Container,
-  .Right-Container {
-    display: flex;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  /* height: 100vh; */
+  width:100%; 
+  box-sizing: border-box;
+  border: 1px solid #ddd; /* Add border around the app */
+}
+
+.Left-Container,
+.Right-Container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Left Container */
+.Left-Container {
+  width: 30%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.Crop-Controls > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.Crop-Controls label {
+  font-weight: bold;
+  text-align: right;
+}
+
+.Crop-Controls input[type="file"],
+.Crop-Controls input[type="number"],
+.Crop-Controls button {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.Crop-Controls button {
+  cursor: pointer;
+  min-width: 100px;
+  background-color: #3860B2;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.Crop-Controls button:hover {
+  background-color: #204ba0;
+}
+
+/* Right Container */
+.Right-Container {
+  width: 70%;
+  padding: 20px;
+}
+
+.Input-Image {
+  display: flex;
+  justify-content: center;
+  width:100%;
+}
+
+.Crop-Image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.Crop-Image-Canvas {
+  width: 100%;  /* Set a fixed width */
+  height: 30vh; /* Set a fixed height */
+  overflow: hidden; /* Ensure content stays inside the container */
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto; /* Center it horizontally and provide spacing */
+}
+
+/* Canvas inside Crop Image Container */
+.Crop-Image-Canvas canvas {
+  max-width: 100%; /* Ensure canvas does not overflow width */
+  max-height: 100%; /* Ensure canvas does not overflow height */
+  object-fit: contain; /* Scale the image while maintaining aspect ratio */
+}
+
+.Crop-Image button {
+  padding: 10px 20px;
+  background-color: #3860B2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.Crop-Image button:hover {
+  background-color: #204ba0;
+}
+
+.Crop-Image a {
+  display: none;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .App {
     flex-direction: column;
     gap: 20px;
   }
-  
-  /* Left Container */
-  .Left-Container {
-    width: 30%;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .Crop-Controls > div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .Crop-Controls label {
-    font-weight: bold;
-    text-align: right;
-  }
-  
-  .Crop-Controls input[type="file"],
-  .Crop-Controls input[type="number"],
-  .Crop-Controls button {
-    flex: 1;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .Crop-Controls button {
-    cursor: pointer;
-    min-width: 100px;
-    background-color: #3860B2;
-    color: white;
-    transition: background-color 0.3s;
-  }
-  
-  .Crop-Controls button:hover {
-    background-color: #204ba0;
-  }
-  
-  /* Right Container */
+
+  .Left-Container,
   .Right-Container {
-    width: 70%;
-    padding: 20px;
-  }
-  
-  .Input-Image {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .Crop-Image {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    width: 100%;
   }
 
-  .Crop-Image-Canvas {
-    width: 100%;  /* Set a fixed width */
-    height: 30vh; /* Set a fixed height */
-    overflow: hidden; /* Ensure content stays inside the container */
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto; /* Center it horizontally and provide spacing */
+  .Crop-Controls > div {
+    flex-direction: column;
   }
-  
-  /* Canvas inside Crop Image Container */
-  .Crop-Image-Canvas canvas {
-    max-width: 100%; /* Ensure canvas does not overflow width */
-    max-height: 100%; /* Ensure canvas does not overflow height */
-    object-fit: contain; /* Scale the image while maintaining aspect ratio */
+
+  .Crop-Controls label {
+    width: auto;
+    text-align: left;
   }
-  
-  .Crop-Image button {
-    padding: 10px 20px;
-    background-color: #3860B2;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+
+  .Crop-Controls input,
+  .Crop-Controls button {
+    width: 100%;
   }
-  
-  .Crop-Image button:hover {
-    background-color: #204ba0;
-  }
-  
-  .Crop-Image a {
-    display: none;
-  }
-  
-  /* Responsive Styling */
-  @media (max-width: 768px) {
-    .App {
-      flex-direction: column;
-      gap: 20px;
-    }
-  
-    .Left-Container,
-    .Right-Container {
-      width: 100%;
-    }
-  
-    .Crop-Controls > div {
-      flex-direction: column;
-    }
-  
-    .Crop-Controls label {
-      width: auto;
-      text-align: left;
-    }
-  
-    .Crop-Controls input,
-    .Crop-Controls button {
-      width: 100%;
-    }
-  }
-  
+}

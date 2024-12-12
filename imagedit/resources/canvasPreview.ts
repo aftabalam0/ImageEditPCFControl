@@ -1,11 +1,11 @@
-import { PixelCrop } from 'react-image-crop'
+import { PixelCrop,PercentCrop } from 'react-image-crop'
 
 const TO_RADIANS = Math.PI / 180
 
 export async function canvasPreview(
   image: HTMLImageElement,
   canvas: HTMLCanvasElement,
-  crop: PixelCrop,
+  crop: PixelCrop ,
   scale = 1,
   rotate = 0,
 ) {
